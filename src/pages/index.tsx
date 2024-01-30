@@ -8,15 +8,32 @@ import { Main } from '@/templates/Main';
 import type { User } from '@/types/User';
 
 import { useAuth } from '../hooks/useAuth';
+import api from '@/services/api';
 
 const Index = () => {
   const { push } = useRouter();
   const { login } = useAuth();
-
+  
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     const token = query.get('jwt');
+    const newUser = query.get('new_user');
 
+    const loginUser = async (user: User) => {
+      const guestItem = sessionStorage.getItem('guest');
+      console.log("logUser user:", user, " guestItem:", guestItem, " newUser:", newUser);
+      if (guestItem && newUser === 'true') {
+        const guest  = JSON.parse(guestItem);
+        console.log("syncGuestToUser");
+        login(user);
+        syncGuestToUser(guest.name);
+        push('/');  
+      } else {
+        login(user);
+        push('/');
+      }
+
+    }
     // console.log("Index get token from query:", token);
     if (token) {
       const decoded: { uuid: string; name: string; email: string } =
@@ -28,10 +45,17 @@ const Index = () => {
         email: decoded.email,
         authToken: token,
       };
-      login(user);
-      push('/');
+      loginUser(user);
     }
   }, []);
+
+  const syncGuestToUser = async(guestName: string) => {
+    await api.post('/sync_guest_user',
+      {
+        guest: guestName,
+      },
+    );
+  } 
 
   return (
     <Main

@@ -1,98 +1,149 @@
 'use client';
 
-import {
-  MainContainer,
-  MessageContainer,
-  MessageHeader,
-  MessageInput,
-  MessageList,
-} from '@minchat/react-chat-ui';
+import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
+
+import { Avatar, MainContainer, ChatContainer, MessageList, Message, MessageInput, TypingIndicator } from '@chatscope/chat-ui-kit-react';
+   
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import { useAuth } from '@/hooks/useAuth';
 import api from '@/services/api';
+import { CustomMessage, IMessage, messageAvatar } from "./CustomMesage";
+import { handleGoogleLogin } from '../pages/login';
 
-interface MessageUser {
-  id?: string;
-  name?: string;
-  avatar?: string;
-}
-interface Message {
-  text: string;
-  user: MessageUser | undefined;
-  type?: 'incoming' | 'outgoing';
+const errorMessage: IMessage = {
+  message: "Sorry. We have an internal error. Please try again later.",
+  sender: "chatbot",
+  direction: "incoming",
 }
 
+interface IMessageResponse {
+  page: number,
+  per_page: number,
+  total: number,
+  items: IMessage[],
+  has_next: boolean,
+}
 const Chat = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [showTyping, setShowTyping] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState(1)
+  const [hasNext, setHasNext] = useState(false);
+  const [perPage, setPerPage] = useState(0);
+  const [total, setTotal] = useState(0);
   const { user, guest } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const response: { data: { messages: Message[] } } = await api.get(
-          user || !guest
-            ? '/chat_messages'
-            : `/chat_messages?guest=${guest.name}`,
-        );
-        setMessages(response.data.messages);
-      } catch (error: any) {
-        if (error.response && error.response.status === 401) {
-          router.push('/login');
-        }
+  const fetchMessages = async (page: number) => {
+    try {
+      const response: { data: IMessageResponse } = await api.get(
+        guest ? `/chat_messages?guest=${guest.name}&page=${page}` : `/chat_messages?page=${page}`,
+      );
+      setCurrentPage(response.data.page)
+      setHasNext(response.data.has_next);
+      setTotal(response.data.total);
+      setPerPage(response.data.per_page);
+      const historyMessages = response.data.items.reverse();
+      const allMessages = [ ... new Set(historyMessages.concat(messages))];
+      console.log("allMessaeg:", allMessages);
+      setMessages(allMessages);
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        router.push('/login');
       }
-    };
-    fetchMessages();
+    }
+  };
+
+  useEffect(() => {
+    if(user || guest) {
+      fetchMessages(1);
+    }
   }, [guest, user]);
 
+  const loadPrevPage = async () => {
+    console.log("loadPrevPage, currentPage, hasNext:", currentPage, hasNext);
+    try {
+      if (hasNext && currentPage <= Math.floor(total/perPage)) {
+        fetchMessages(currentPage + 1);
+        setCurrentPage(currentPage+1);
+      }  
+    } catch (error: any) {
+      console.log("loadPrevPage error:", error)
+      setHasNext(false);
+    }
+  }
+
   const sendMessage = async (question: string) => {
-    const messagesWithQuestion: Message[] = [
+    const messagesWithQuestion: IMessage[] = [
       ...messages,
       {
-        text: question,
-        type: 'outgoing',
-        user: {
-          id: (user || guest)?.name,
-          name: (user || guest)?.name,
-        },
+        message: question,
+        sender: (user || guest)?.name,
+        direction: 'outgoing',
       },
     ];
     setMessages(messagesWithQuestion);
+    setShowTyping(true);
 
     try {
-      const response: { data: { answer: Message } } = await api.post(
+      const response: { data: { answer: IMessage } } = await api.post(
         '/message',
         {
           question,
           guest: guest?.name,
         },
       );
+      setShowTyping(false);
       setMessages([...messagesWithQuestion, response.data.answer]);
     } catch (error: any) {
-      if (error.response.status === 401) {
+      setShowTyping(false);
+      setMessages([...messagesWithQuestion, errorMessage])
+      if (error.response && error.response.status === 401) {
         router.push('/login');
       }
     }
   };
 
+  const userLogin = () => {
+    console.log("userlogin");
+    handleGoogleLogin();
+  }
+
   // console.log('renderChat, messages', messages);
   return (
-    <div className="h-full">
-      <MainContainer style={{ height: '80vh' }}>
-        <MessageContainer>
-          <MessageHeader />
+    <div style={{ position:"relative", height: "100vh" }}>
+      <p className="font-bold">Welcome to Your Journey Towards Better Sleep!</p>
+      <p className="text-base">Struggling to drift into a peaceful slumber? Worried about restless nights? Let's put those concerns to rest.
+
+      Introducing our Good Night Insomnia Chatbot - your personal sleep assistant.
+       Equipped with the most comprehensive sleep knowledge available, 
+       our chatbot is here to offer tailored advice and effective solutions to enhance
+        your sleep quality.</p>
+      <MainContainer>
+        <ChatContainer>       
           <MessageList
-            currentUserId="dan"
-            // @ts-ignore
-            messages={messages}
-          />
-          <MessageInput
-            placeholder="Type message here"
-            onSendMessage={(message) => sendMessage(message)}
-          />
-        </MessageContainer>
+            typingIndicator={ showTyping  ? <TypingIndicator content="Chatbot is typing"/> : null }
+            onYReachStart={() => loadPrevPage()}
+          >
+            { messages.map((message, index)=> (
+                <Message model={{direction: message.direction, type: "custom"}} className="w-full" key={index}>
+                  <Avatar src={messageAvatar(message)}  name={message.sender} />
+                  <Message.CustomContent>
+                    <CustomMessage
+                      message={message}
+                      key={index}
+                      lastMessage={index === messages.length-1}
+                      sendMessage={sendMessage}
+                      userLogin={userLogin}
+                      />                  
+                  </Message.CustomContent>
+                </Message>
+              ))
+            }
+            </MessageList>
+          <MessageInput placeholder="Type message here" onSend = {(textContent) => sendMessage(textContent)} />        
+        </ChatContainer>
       </MainContainer>
     </div>
   );

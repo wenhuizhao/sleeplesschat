@@ -1,26 +1,46 @@
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
+import api from '@/services/api';
 
-const Blog = () => (
-  <Main meta={<Meta title="Lorem ipsum" description="Lorem ipsum" />}>
-    <p>
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione fuga
-      recusandae quidem. Quaerat molestiae blanditiis doloremque possimus labore
-      voluptatibus distinctio recusandae autem esse explicabo molestias officia
-      placeat, accusamus aut saepe.
-    </p>
+interface BlogType {
+  id: string,
+  title: string,
+  time_created: string,
+}
+const Blog = () => {
+  const [blogs, setBlogs] = useState<BlogType[]>([]);
 
-    {Array.from(Array(10).keys()).map((elt) => (
-      <div
-        className="my-4 w-full rounded-md border-2 border-gray-400 px-2 py-1"
-        key={elt}
-      >
-        <Link href={`/blog/blog-${elt}`}>{`Blog - ${elt}`}</Link>
-      </div>
-    ))}
-  </Main>
-);
+  useEffect(()=>{
+    const fetchBlogs = async () => {
+      try {
+        const response: { data: BlogType[] } = await api.get('/blogs');
+        setBlogs(response.data);
+      } catch (error: any) {
+        console.log("fetch blog error:", error);
+      }
+    };
+    fetchBlogs();
+
+  }, []);
+
+  return (
+    <Main meta={<Meta title="Lorem ipsum" description="Lorem ipsum" />}>
+      <p>
+      </p>
+  
+      {blogs.map((blog) => (
+        <div
+          className="my-4 w-full rounded-md border-2 border-gray-400 px-2 py-1"
+          key={blog.id}
+        >
+          <Link href={`/blog/${blog.id}`}>{`${blog.title}`}</Link>
+        </div>
+      ))}
+    </Main>
+  );
+  
+}
 
 export default Blog;
