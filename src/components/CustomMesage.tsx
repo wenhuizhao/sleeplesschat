@@ -15,7 +15,7 @@ const chatbotAvatar = "/assets/images/sleepAIbot.svg";
 
 export interface IMessage {
   message: string;
-  sender: string,
+  sender?: string,
   direction: 'incoming' | 'outgoing';
   avatar?: string,
   attributes?: any,

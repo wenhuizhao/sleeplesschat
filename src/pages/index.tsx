@@ -26,17 +26,17 @@ const Index = () => {
         const guest  = JSON.parse(guestItem);
         console.log("syncGuestToUser");
         login(user);
-        syncGuestToUser(guest.name);
+        await syncGuestToUser(guest.name);
         push('/');  
       } else {
         login(user);
         push('/');
       }
-
+      await syncTimezoneToUser();
     }
     // console.log("Index get token from query:", token);
     if (token) {
-      const decoded: { uuid: string; name: string; email: string } =
+      const decoded: { uuid: string; name: string; email: string; picture: string } =
         jwtDecode(token);
       console.log('decoded token:', decoded);
       const user: User = {
@@ -44,8 +44,10 @@ const Index = () => {
         name: decoded.name,
         email: decoded.email,
         authToken: token,
+        avatar: decoded.picture,
       };
       loginUser(user);
+      
     }
   }, []);
 
@@ -56,6 +58,16 @@ const Index = () => {
       },
     );
   } 
+
+  const syncTimezoneToUser = async() => {
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    await api.post('/sync_timezone_user', 
+      {
+        timezone: timezone
+      },
+    );
+  }
+
 
   return (
     <Main

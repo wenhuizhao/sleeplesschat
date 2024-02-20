@@ -21,6 +21,7 @@ export const useUser = () => {
     // console.log("removeUser");
     setUser(null);
     setItem('user', '');
+    console.log('remove authorization header');
     api.defaults.headers.Authorization = '';
   };
 

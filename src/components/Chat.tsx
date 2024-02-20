@@ -45,7 +45,8 @@ const Chat = () => {
       setTotal(response.data.total);
       setPerPage(response.data.per_page);
       const historyMessages = response.data.items.reverse();
-      const allMessages = [ ... new Set(historyMessages.concat(messages))];
+      console.log("historyMessages:", historyMessages)
+      const allMessages = page===1 ? historyMessages : [ ... new Set(historyMessages.concat(messages))];
       console.log("allMessaeg:", allMessages);
       setMessages(allMessages);
     } catch (error: any) {
@@ -56,6 +57,7 @@ const Chat = () => {
   };
 
   useEffect(() => {
+    console.log("call useEffect")
     if(user || guest) {
       fetchMessages(1);
     }
@@ -80,6 +82,7 @@ const Chat = () => {
       {
         message: question,
         sender: (user || guest)?.name,
+        avatar: (user) ? user.avatar : undefined,
         direction: 'outgoing',
       },
     ];

@@ -1,8 +1,8 @@
 import Axios from 'axios';
 
 const urls = {
-  test: `http://localhost:5000`,
-  development: 'http://localhost:5000/',
+  test: `http://localhost:4000`,
+  development: 'http://localhost:4000/',
   production: 'https://api.insomniaspace.com/',
 };
 const api = Axios.create({
