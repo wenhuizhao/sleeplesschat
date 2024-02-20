@@ -19,6 +19,23 @@ const Index = () => {
     const token = query.get('jwt');
     const newUser = query.get('new_user');
 
+    const syncGuestToUser = async(guestName: string) => {
+      await api.post('/sync_guest_user',
+        {
+          guest: guestName,
+        },
+      );
+    } 
+
+    const syncTimezoneToUser = async() => {
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      await api.post('/sync_timezone_user', 
+        {
+          timezone: timezone
+        },
+      );
+    }  
+
     const loginUser = async (user: User) => {
       const guestItem = sessionStorage.getItem('guest');
       console.log("logUser user:", user, " guestItem:", guestItem, " newUser:", newUser);
@@ -50,24 +67,6 @@ const Index = () => {
       
     }
   }, []);
-
-  const syncGuestToUser = async(guestName: string) => {
-    await api.post('/sync_guest_user',
-      {
-        guest: guestName,
-      },
-    );
-  } 
-
-  const syncTimezoneToUser = async() => {
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    await api.post('/sync_timezone_user', 
-      {
-        timezone: timezone
-      },
-    );
-  }
-
 
   return (
     <Main

@@ -130,12 +130,12 @@ const Chat = () => {
             onYReachStart={() => loadPrevPage()}
           >
             { messages.map((message, index)=> (
-                <Message model={{direction: message.direction, type: "custom"}} className="w-full" key={index}>
+                <Message model={{direction: message.direction, type: "custom"}} className="w-full" key={Math.floor(Math.random() * 10000)}>
                   <Avatar src={messageAvatar(message)}  name={message.sender} />
                   <Message.CustomContent>
                     <CustomMessage
                       message={message}
-                      key={index}
+                      key={Math.floor(Math.random() * 10000)}
                       lastMessage={index === messages.length-1}
                       sendMessage={sendMessage}
                       userLogin={userLogin}

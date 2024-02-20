@@ -52,11 +52,11 @@ const messageAvatar = (message: IMessage): string => {
           <div className="grid grid-cols-2 gap-4">
             { message.attributes.type === 'picklist' && message.attributes.lists.map((list: string, index: number)=>(
 
-              <button key={index} className="bg-sky-300/30 mx-1 my-1 py-2 px-2 rounded" onClick={()=> sendMessage(list)}>{list}</button>
+              <button type="button" key={Math.floor(Math.random() * 10000)} className="bg-sky-300/30 mx-1 my-1 py-2 px-2 rounded" onClick={()=> sendMessage(list)}>{list}</button>
             ))}
 
             { message.attributes.type === 'user_login' && 
-               <button className="bg-sky-300/30 mx-1 my-1 py-2 px-2 rounded" onClick={()=> userLogin()}>Login or Register</button>
+               <button type="button" className="bg-sky-300/30 mx-1 my-1 py-2 px-2 rounded" onClick={()=> userLogin()}>Login or Register</button>
             }
           </div>
         </div>
