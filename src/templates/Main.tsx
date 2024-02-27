@@ -1,6 +1,6 @@
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { useRouter } from 'next/router';
 
 import api from '@/services/api';
 import { AppConfig } from '@/utils/AppConfig';
@@ -19,7 +19,7 @@ const Main = (props: IMainProps) => {
   const handleLogout = async () => {
     logout();
     await api.post('/logout');
-    router.push("/");
+    router.push('/');
   };
   return (
     <div className="w-full px-1 text-gray-700 antialiased">
@@ -27,10 +27,10 @@ const Main = (props: IMainProps) => {
 
       <div className="mx-auto max-w-screen-lg">
         <header className="border-b border-neutral-50">
-        <div className="flex justify-end">
+          <div className="flex justify-end">
             <nav>
               <ul className="flex flex-wrap text-xl">
-                <li className="mr-2 menu">
+                <li className="menu mr-2">
                   <Link
                     href="/"
                     className="border-none text-gray-300 hover:text-gray-500"
@@ -38,7 +38,7 @@ const Main = (props: IMainProps) => {
                     Home
                   </Link>
                 </li>
-                <li className="mr-2 menu">
+                <li className="menu mr-2">
                   <Link
                     href="/about/"
                     className="border-none text-gray-300 hover:text-gray-500"
@@ -46,7 +46,7 @@ const Main = (props: IMainProps) => {
                     About
                   </Link>
                 </li>
-                <li className="mr-2 menu">
+                <li className="menu mr-2">
                   <Link
                     href="/guestbook/"
                     className="border-none text-gray-300 hover:text-gray-500"
@@ -54,7 +54,7 @@ const Main = (props: IMainProps) => {
                     Forum
                   </Link>
                 </li>
-                <li className="mr-2 menu">
+                <li className="menu mr-2">
                   <Link
                     href="/blog/"
                     className="border-none text-gray-300 hover:text-gray-500"
@@ -68,7 +68,7 @@ const Main = (props: IMainProps) => {
             <nav>
               <ul className="flex flex-wrap text-xl">
                 {user ? (
-                  <li className="ml-6 menu">
+                  <li className="menu ml-6">
                     <Link
                       onClick={(_e) => handleLogout()}
                       href="/"
@@ -78,7 +78,7 @@ const Main = (props: IMainProps) => {
                     </Link>
                   </li>
                 ) : (
-                  <li className="ml-6 menu">
+                  <li className="menu ml-6">
                     <Link
                       href="/login/"
                       className="border-none text-gray-300 hover:text-gray-500"
@@ -105,9 +105,7 @@ const Main = (props: IMainProps) => {
             <h1 className="text-3xl font-bold text-neutral-200">
               {AppConfig.title}
             </h1>
-            
           </div>
-
         </header>
 
         <main className="content py-5 text-xl">{props.children}</main>

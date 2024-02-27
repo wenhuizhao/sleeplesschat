@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { AppConfig } from '@/utils/AppConfig';
 
-const headerBanner = "/assets/images/headerBanner.png";
+// const headerBanner = "/assets/images/headerBanner.png";
 
 export default function DashboardLayout({
   children, // will be a page or nested layout
@@ -24,7 +24,7 @@ export default function DashboardLayout({
           <div className="flex justify-between">
             <nav>
               <ul className="flex flex-wrap text-xl">
-                <li className="mr-6 menu">
+                <li className="menu mr-6">
                   <Link
                     href="/dashboard/"
                     className="border-none text-gray-700 hover:text-gray-900"
@@ -32,7 +32,7 @@ export default function DashboardLayout({
                     Dashboard
                   </Link>
                 </li>
-                <li className="mr-6 menu">
+                <li className="menu mr-6">
                   <Link
                     href="/dashboard/user-profile/"
                     className="border-none text-gray-700 hover:text-gray-900"
@@ -45,7 +45,7 @@ export default function DashboardLayout({
 
             <nav>
               <ul className="flex flex-wrap text-xl">
-                <li className="mr-6 menu">
+                <li className="menu mr-6">
                   <SignOutButton />
                 </li>
               </ul>

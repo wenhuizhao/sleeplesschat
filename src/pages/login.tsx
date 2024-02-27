@@ -1,17 +1,20 @@
 /* eslint-disable import/no-extraneous-dependencies, import/extensions */
 
-import { Meta } from '@/layouts/Meta';
-import { Main } from '@/templates/Main';
+import axios from 'axios';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+
 import { useAuth } from '@/hooks/useAuth';
-import axios from 'axios';
+import { Meta } from '@/layouts/Meta';
+import { Main } from '@/templates/Main';
+
 import { Env } from '../libs/Env.mjs';
-import Image from 'next/image'
-const googleSignin = "/assets/images/googleSignin.png";
+
+// const googleSignin = '/assets/images/googleSignin.png';
 
 const BACKEND_URL = Env.NEXT_PUBLIC_BACKEND_URL;
-export const handleGoogleLogin = (e=null) => {
+export const handleGoogleLogin = (e: any = null) => {
   console.log('login');
   if (e) {
     e.preventDefault();
@@ -40,10 +43,23 @@ const Login = () => {
     router.push('/');
   };
   return (
-    <Main meta={<Meta title="Insomnia Space" description="Say good night to insomnia" />}>
+    <Main
+      meta={
+        <Meta title="Insomnia Space" description="Say good night to insomnia" />
+      }
+    >
       <p>Login so that I can remember you.</p>
-      <button onClick={(e) => handleGoogleLogin(e)} className="login">
-        <Image src="/assets/images/googleSignin.png" height={40} width={175}/>
+      <button
+        onClick={(e) => handleGoogleLogin(e)}
+        className="login"
+        type="button"
+      >
+        <Image
+          src="/assets/images/googleSignin.png"
+          height={40}
+          width={175}
+          alt="google login"
+        />
         Log in With Google
       </button>
       <br />

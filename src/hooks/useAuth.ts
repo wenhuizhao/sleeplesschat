@@ -1,9 +1,10 @@
 'use client';
 
+import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 // @ts-ignore
 import { v4 as uuidv4 } from 'uuid';
-import { jwtDecode } from 'jwt-decode';
+
 import type { User } from '@/types/User';
 
 import { useLocalStorage } from './useLocalStorage';
@@ -33,8 +34,8 @@ export const useAuth = () => {
     // console.log("useAuth useeffect user:", user);
     if (userData) {
       const userLoaded = JSON.parse(userData);
-      const decoded = jwtDecode(userLoaded.authToken)
-      if(decoded && decoded.exp && decoded.exp * 1000 < Date.now()) {
+      const decoded = jwtDecode(userLoaded.authToken);
+      if (decoded && decoded.exp && decoded.exp * 1000 < Date.now()) {
         removeUser();
       } else {
         addUser(userLoaded);
