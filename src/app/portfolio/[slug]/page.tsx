@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 
 import { Main } from '@/templates/Main';
 
+export const dynamic = 'force-dynamic';
+
 type IPortfolioDetailProps = {
   params: { slug: string };
 };

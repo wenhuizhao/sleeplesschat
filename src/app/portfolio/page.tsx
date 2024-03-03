@@ -4,6 +4,8 @@ import Link from 'next/link';
 
 import { Main } from '@/templates/Main';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Portfolio',
   description: 'Welcome to my portfolio page!',

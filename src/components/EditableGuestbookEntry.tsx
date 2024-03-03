@@ -24,13 +24,14 @@ const EditableGuestbookEntry = (props: IEditableGuestbookEntryProps) => {
   return (
     <>
       <button
+        aria-label="edit"
         type="button"
         onClick={() => {
           handleEdit();
         }}
       >
         <svg
-          className="h-6 w-6 stroke-current"
+          className="size-6 stroke-current"
           fill="none"
           strokeLinecap="round"
           strokeLinejoin="round"

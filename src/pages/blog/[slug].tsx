@@ -5,6 +5,8 @@ import { Meta } from '@/layouts/Meta';
 import api from '@/services/api';
 import { Main } from '@/templates/Main';
 
+export const dynamic = 'force-dynamic';
+
 // type IBlogUrl = {
 //   slug: string;
 // };
@@ -77,4 +79,5 @@ const Blog = () => {
     </Main>
   );
 };
+
 export default Blog;
