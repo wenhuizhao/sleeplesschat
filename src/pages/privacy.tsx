@@ -17,11 +17,6 @@ const Privacy = () => (
       use or share your information with anyone except as described in this
       Privacy Policy.
     </p>
-    <p>
-      The terms used in this Privacy Policy have the same meanings as in our
-      Terms and Conditions, which is accessible at REM College Apps, unless
-      otherwise defined in this Privacy Policy.
-    </p>
 
     <p>
       <strong>Information Collection and Use</strong>
@@ -29,9 +24,11 @@ const Privacy = () => (
     <p>
       For a better experience while using our Service, we may require you to
       provide certain personally identifiable information, including but not
-      limited to email, user name, Google Drive access, and Oauth2 credentials.
-      The information that we request is will be retained by us and used as
-      described in this privacy policy.
+      limited to email, user name. When you choose login by google, we only
+      request your google email, name and profile avatar. Those are only used to
+      serve the user experience. The information that we request will be
+      retained by us and used as described in this privacy policy. We will not
+      share those information with any third party.
     </p>
     <p>
       The website does use third party services that may collect information

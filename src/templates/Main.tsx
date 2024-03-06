@@ -108,10 +108,19 @@ const Main = (props: IMainProps) => {
           </div>
         </header>
 
-        <main className="content py-5 text-xl">{props.children}</main>
+        <main style={{ height: '90vh' }} className="content py-5 text-xl">
+          {props.children}
+        </main>
 
         <footer className="border-t border-gray-300 py-8 text-center text-sm">
-          © Copyright {new Date().getFullYear()} {AppConfig.title}.
+          <Link className="mx-2" href="/privacy">
+            Provicy
+          </Link>
+          |
+          <Link className="mx-2" href="/term">
+            Term of Service
+          </Link>
+          | © Copyright {new Date().getFullYear()} {AppConfig.title}.
         </footer>
       </div>
     </div>
