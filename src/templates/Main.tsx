@@ -46,14 +46,14 @@ const Main = (props: IMainProps) => {
                     About
                   </Link>
                 </li>
-                <li className="menu mr-2">
+                {/* <li className="menu mr-2">
                   <Link
                     href="/guestbook/"
                     className="border-none text-gray-300 hover:text-gray-500"
                   >
                     Forum
                   </Link>
-                </li>
+                </li> */}
                 <li className="menu mr-2">
                   <Link
                     href="/blog/"
@@ -108,9 +108,7 @@ const Main = (props: IMainProps) => {
           </div>
         </header>
 
-        <main style={{ height: '90vh' }} className="content py-5 text-xl">
-          {props.children}
-        </main>
+        <main className="content py-5 text-xl">{props.children}</main>
 
         <footer className="border-t border-gray-300 py-8 text-center text-sm">
           <Link className="mx-2" href="/privacy">

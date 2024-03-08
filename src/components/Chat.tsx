@@ -129,7 +129,7 @@ const Chat = () => {
 
   // console.log('renderChat, messages', messages);
   return (
-    <div style={{ position: 'relative', height: '70vh' }}>
+    <div className="max-h-screen min-h-96">
       <p className="font-bold">Welcome to Your Journey Towards Better Sleep!</p>
       <p className="text-base">
         Struggling to drift into a peaceful slumber? Worried about restless

@@ -40,7 +40,7 @@ const Blog = () => {
       />
 
       <Editor
-        apiKey="viqh24y5crzz31eghw96jwq39y15sia6iwe85rg9fupgr4f4"
+        apiKey="e23i10hv1vvue1qmom3m3rynmc1noi6hs4bucx8xh53tf66v"
         onInit={(_evt, editor) => {
           editorRef.current = editor;
         }}
