@@ -15,6 +15,7 @@ export const Env = createEnv({
     NEXT_PUBLIC_CLERK_SIGN_UP_URL: z.string().nonempty(),
     NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: z.string().nonempty(),
     NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: z.string().nonempty(),
+    NEXT_PUBLIC_FRONTEND_URL: z.string().nonempty(),
     NEXT_PUBLIC_BACKEND_URL: z.string().nonempty(),
   },
   runtimeEnv: {
@@ -29,6 +30,7 @@ export const Env = createEnv({
       process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL,
     NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL:
       process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL,
+    NEXT_PUBLIC_FRONTEND_URL: process.env.NEXT_PUBLIC_FRONTEND_URL,
     NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
   },
 });
