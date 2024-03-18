@@ -105,10 +105,11 @@ export default function CheckoutForm(props: Props) {
         onChange={(e: any) => setEmail(e.target.value)}
       /> */}
       <div>
-        <label htmlFor="email-input">
+        <label htmlFor="email-input" className="text-base text-gray-700">
           Email
           <div>
             <input
+              className="my-5 mt-2 w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 focus:outline-none focus:ring focus:ring-blue-300/50"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               id="email"
@@ -120,6 +121,7 @@ export default function CheckoutForm(props: Props) {
       </div>
       <PaymentElement id="payment_element" options={paymentElementOptions} />
       <button
+        className="my-5 rounded bg-blue-500 px-5 py-2  font-bold text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300/50"
         disabled={isLoading || !stripe || !elements}
         id="submit"
         type="submit"

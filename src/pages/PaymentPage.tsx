@@ -41,7 +41,7 @@ export default function PaymentPage() {
   // }, [])
 
   const appearance: Appearance = {
-    theme: 'night',
+    theme: 'stripe',
   };
 
   const amount = 500;
